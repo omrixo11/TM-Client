@@ -8,6 +8,12 @@ const cartSlice = createSlice({
     total: 0,
   },
   reducers: {
+
+    clearCart: (state) => {
+      state.cart = [];
+      state.total = 0;
+    },
+
     addToCart: (state, action) => {
       const itemInCart = state.cart.find((item) => item.id === action.payload.id);
 
@@ -50,6 +56,7 @@ export const cartReducer = cartSlice.reducer;
 export const {
   addToCart,
   sumCart,
+  clearCart,
   incrementQuantity,
   decrementQuantity,
   removeItem,

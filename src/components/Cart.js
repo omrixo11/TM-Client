@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { sumCart, incrementQuantity, decrementQuantity, removeItem } from '../features/cart/cartSlice';
+import { sumCart, incrementQuantity, decrementQuantity, removeItem, clearCart } from '../features/cart/cartSlice';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Cart = () => {
 
@@ -56,6 +58,11 @@ const Cart = () => {
       var money = totalP + livraison +'' + '000'
       console.log(Number(money,'tesstr'));
 
+      if (selectedPaymentMethod === 'CartBancaire')
+      {
+
+     
+
             const getway = {
                 "receiverWalletId": "64ff797847bb62fc99b7e402",
                 "token": "TND",
@@ -80,7 +87,6 @@ const Cart = () => {
                 "theme": "light"
             }
 
-
             const paymentResponse = await axios.post('http://localhost:5001/order/init-payment', getway, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,13 +104,20 @@ const Cart = () => {
             console.log(paymentResponse.data.payUrl, 'test url ');
             if (paymentResponse) window.location.href = paymentResponse.data.payUrl
 
-
+        }
             const response = await axios.post('http://localhost:5001/order', order, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+            
             console.log('Order placed successfully:', response.data);
+
+            toast.success('Votre commande a été passée avec succès.')
+
+            dispatch(clearCart());
+            navigate('/');
+
 
 
         } catch (error) {
