@@ -198,16 +198,12 @@ function SignupForm() {
                                         </div>
                                     </div>
 
-                                  
+
                                     <div className="col-12">
                                         <button className="btn btn-animation w-100" type="submit">Créer un compte</button>
                                     </div>
                                 </form>
                             </div>
-
-
-
-
 
                             <div className="other-log-in">
                                 <h6></h6>
