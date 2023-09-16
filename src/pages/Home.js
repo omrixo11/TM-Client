@@ -6,6 +6,7 @@ import {
     selectAllProducts,
     getProductsError,
 } from '../features/products/productsSlice';
+import axios from 'axios'
 import {
     getCategorysStatus,
     fetchCategorys,
@@ -26,6 +27,13 @@ export default function Home() {
     const errorCategory = useSelector(getCategorysError);
 
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+
+    const handleSubcategoryClick = (subcategory) => {
+        setSelectedSubcategory(subcategory);
+        fetchProducts(subcategory);
+    };
+
 
     useEffect(() => {
         if (productsStatus === 'idle') {
@@ -39,13 +47,14 @@ export default function Home() {
         }
     }, [categorysStatus, dispatch]);
 
-    const handleCategoryClick = (categoryId) => {
-        setSelectedCategory(categoryId);
+    const handleCategoryClick = (category) => {
+        console.log(category, 'cat');
+        setSelectedCategory(category);
     };
 
     // Filter products based on the selected category
     const filteredProducts = selectedCategory
-        ? products.filter((product) => product.category === selectedCategory)
+        ? products.filter((product) => product.category[0] === selectedCategory)
         : products;
 
     let contentToDisplay = '';
@@ -69,61 +78,111 @@ export default function Home() {
     } else if (productsStatus === 'failed') {
         contentToDisplay = <>{console.log(error)}</>;
     }
+
+
+    ///banner
+    const [bannerImages, setBannerImages] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:5001/banners')
+            .then((response) => {
+                setBannerImages(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching banner images:', error);
+            });
+    }, []);
+
     return (
         <>
-            <section className="home-section pt-2">
-                <div className="container-fluid-lg">
-                    <div className="row g-4">
-                        <div className="col-xl-8 ratio_65">
+    <section className="home-section pt-2">
+            <div className="container-fluid-lg">
+                <div className="row g-4">
+                    <div className="col-xl-4 ratio_65">
+                        <div className="home-contain h-100">
+                            <div className="h-100">
+                                {bannerImages.length >= 1 && (
+                                    <img src={`assets/images/vegetable/banner/${bannerImages[0].image}`} alt="" />
+                                )}
+                            </div>
+                            <div className="home-detail p-center-left w-75">
+                                <div>
+                                    <h1 className="text-uppercase" style={{ color: 'white' }}>
+                                        RESTEZ CHEZ VOUS ET FAITES-VOUS LIVRER <span className="daily"> 24/7</span>
+                                    </h1>
+                                    <p className="w-75 d-none d-sm-block" style={{ color: 'white' }}>
+                                        meilleure sélection de produits frais.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-xl-4 ratio_65">
+                        <div className="home-contain">
                             <div className="home-contain h-100">
                                 <div className="h-100">
-                                    <img src="assets/images/vegetable/banner/1.jpg" alt="" />
+                                    {bannerImages.length >= 2 && (
+                                        <img src={`assets/images/vegetable/banner/${bannerImages[1].image}`} alt="" />
+                                    )}
                                 </div>
-                                <div className="home-detail p-center-left w-75">
+                                <div className="home-detail p-center-left home-p-sm w-75">
                                     <div>
-
-                                        <h1 className="text-uppercase" style={{ color: 'white' }}>RESTEZ CHEZ VOUS ET FAITES-VOUS LIVRER <span className="daily"> 24/7</span></h1>
-                                        <p className="w-75 d-none d-sm-block" style={{ color: 'white' }}>meilleure sélection de produits frais.</p>
-
+                                        <h3 style={{ color: 'white' }}>
+                                            Nous livrons des légumes et des fruits biologiques.
+                                        </h3>
+                                        <p className="w-75" style={{ color: 'white' }}>
+                                            {/* Add your description here */}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="col-xl-4 ratio_65">
-                            <div className="row g-4">
-                                <div className="col-xl-12 col-md-6">
-                                    <div className="home-contain">
-                                        <img src="assets/images/vegetable/banner/2.jpg" alt="" />
-                                        <div className="home-detail p-center-left home-p-sm w-75">
-                                            <div>
-                                                <h3 style={{ color: 'white' }}>Nous livrons des légumes et des fruits biologiques.<span style={{ color: 'white', fontSize: '20px' }}></span>
-                                                </h3>
-                                                <p className="w-75" style={{ color: 'white' }}></p>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div className="col-xl-4 ratio_65">
+                        <div className="home-contain">
+                            <div className="home-contain h-100">
+                                <div className="h-100">
+                                    {bannerImages.length >= 3 && (
+                                        <img src={`assets/images/vegetable/banner/${bannerImages[2].image}`} alt="" />
+                                    )}
                                 </div>
-
-                                <div className="col-xl-12 col-md-6">
-                                    <div className="home-contain">
-                                        <img src="assets/images/vegetable/banner/3.jpg" alt="" />
-                                        <div className="home-detail p-center-left home-p-sm w-75">
-                                            <div>
-                                                <h3 style={{ color: 'white' }}>Commencez vos achats quotidiens avec des produits biologiques.</h3>
-
-
-                                            </div>
-                                        </div>
+                                <div className="home-detail p-center-left home-p-sm w-75">
+                                    <div>
+                                        <h3 style={{ color: 'white' }}>
+                                            Commencez vos achats quotidiens avec des produits biologiques.
+                                        </h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
+            <section className="home-section pt-2">
+  <div className="container-fluid-lg">
+    <div className="row g-4">
+      {bannerImages.map((banner, index) => (
+        <div className="col-xl-4 ratio_65" key={index}>
+          <div className="home-contain h-100">
+            <div className="h-100">
+              <img src={banner.bannerUrl} alt={`Banner ${index + 1}`} />
+            </div>
+            <div className="home-detail p-center-left w-75">
+              <div>
+                <h1 className="text-uppercase" style={{ color: 'white' }}>
+                  {banner.description}
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
 
             <section className="product-section">
@@ -137,17 +196,16 @@ export default function Home() {
                                         {categorys ?
                                             categorys.map((categ, i) => (
                                                 <li>
-                                                    <div className="category-list">
+                                                    <div key={i} className="category-list" onClick={() => handleCategoryClick(categ._id)}>
                                                         <img src="assets/svg/1/vegetable.svg" alt="" />
                                                         <h5>
-                                                            <a href="/Shop">{categ?.name}</a>
+                                                            <a>{categ?.name}</a>
                                                         </h5>
                                                     </div>
                                                 </li>
                                             ))
                                             :
                                             <> Loading </>
-
                                         }
 
 
@@ -188,17 +246,13 @@ export default function Home() {
 
 
 
-
                             <div className="row g-sm-4 g-3 row-cols-xxl-4 row-cols-xl-3 row-cols-lg-2 row-cols-md-3 row-cols-2 product-list-section">
-                                {/* <ProductsIndex/> */} {console.log(productsStatus, 'test', products)}
-                                {products ? products.map((product, i) => (
+                                {/* <ProductsIndex/> */} {console.log(productsStatus, 'test', filteredProducts)}
+                                {products ? filteredProducts.map((product, i) => (
                                     <Product product={product} key={i} />
-                                )) : <>null</>
+                                )) : <h1>no Product available</h1>
 
                                 }
-
-
-
 
                             </div>
 

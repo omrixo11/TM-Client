@@ -4,8 +4,39 @@ import { useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
 import { register, reset } from '../../features/auth/authSlice'
 import Spinner from "../Spinner";
+import axios from 'axios'
 
 function SignupForm() {
+
+
+  const addPicture = async (picture) => {
+    try {
+      const response = await axios.post('http://localhost:5001/users/upload', picture, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log(response.data, '==========response');
+      setFormData((prevState) => ({
+        ...prevState,
+        patente: response.data.url, 
+      }));
+    } catch (error) {
+      console.error(error, '=======error');
+    }
+  };
+
+  const sendPic = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      console.log(formData, 'formData');
+      addPicture(formData); 
+    }
+  };
     const [formData, setFormData] = useState({
         firstname: '',
         lastname: '',
@@ -21,7 +52,6 @@ function SignupForm() {
         patente: '',
         RNE: '',
     })
-
     const {
         firstname,
         lastname,
@@ -186,18 +216,10 @@ function SignupForm() {
 
                                     <div className="col-12">
                                         <div className="form-floating theme-form-floating">
-                                            <input type="file" className="form-control" id="patente" placeholder="patente" name='patente' onChange={onChange} />
+                                            <input type="file" className="form-control" id="patente" placeholder="patente" name='patente' onChange={sendPic} />
                                             <label for="assujettieTVA">Patente</label>
                                         </div>
                                     </div>
-
-                                    <div className="col-12">
-                                        <div className="form-floating theme-form-floating">
-                                            <input type="file" className="form-control" id="RNE" placeholder="RNE" name='RNE' onChange={onChange} />
-                                            <label for="RNE">RNE</label>
-                                        </div>
-                                    </div>
-
 
                                     <div className="col-12">
                                         <button className="btn btn-animation w-100" type="submit">Créer un compte</button>

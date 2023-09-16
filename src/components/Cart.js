@@ -312,9 +312,9 @@ const Cart = () => {
                                         </li>
 
                                         <li>
-                                            <button onclick="location.href = 'index.html';"
+                                            <button onclick="/"
                                                 class="btn btn-light shopping-button text-dark">
-                                                <i class="fa-solid fa-arrow-left-long"></i>Retourner vers la boutique</button>
+                                                <i class="fa-solid fa-arrow-left-long" href="/Home"></i>Retourner vers la boutique</button>
                                         </li>
                                     </ul>
                                 </div>
