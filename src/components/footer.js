@@ -220,9 +220,7 @@ export default function Footer() {
                 <h6 className="text-content">©2023 Tunis Market</h6>
             </div>
 
-            <div className="payment">
-                <img src="assets/images/payment/1.png"    alt=""/>
-            </div>
+            
 
             <div className="social-link">
                 {/* <h6 className="text-content">Stay connected :</h6> */}

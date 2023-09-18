@@ -59,65 +59,19 @@ export default function Product({ product, key }) {
                                     <img src={product.imageUrls[0]} alt="" />
                                 </a>
 
-                                <ul className="product-option">
-                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                            data-bs-target="#view">
-                                            <FeatherIcon icon={'eye'} />
-                                        </a>
-                                    </li>
-
-                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Compare">
-                                        <a href="compare.html">
-                                            <FeatherIcon icon={'refresh-cw'} />
-                                        </a>
-                                    </li>
-
-                                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist" style={{ backgroundColor: color, borderRadius: 10 }}>
-                                        <a className="notifi-wishlist"
-                                            onClick={() => {
-                                                // console.log('wishList', user._id, 'id===================================');
-                                                // if (user) {
-                                                //     addToWishList(user._id, id)
-                                                // }
-                                            }}>
-                                            {/* <div  className="notifi-wishlist"  > */}
-                                            <FeatherIcon icon={'heart'} />
-                                            {/* </div> */}
-                                        </a>
-                                    </li>
-                                </ul>
+                                
                             </div>
                         </div>
                         <div className="product-footer">
                             <div className="product-detail">
-                                <span className="span-name">Vegetable</span>
+                                <span className="span-name"></span>
                                 <a href="product-left-thumbnail.html">
                                     <h5 className="name">{product.name}</h5>
                                 </a>
                                 <p className="text-content mt-1 mb-2 product-content">{product.description}</p>
-                                <div className="product-rating mt-2">
-                                    <ul className="rating">
-                                        <li>
-                                            <FeatherIcon icon={'star'} />
-                                        </li>
-                                        <li>
-                                            <FeatherIcon icon={'star'} />
-                                        </li>
-                                        <li>
-                                            <FeatherIcon icon={'star'} />
-                                        </li>
-                                        <li>
-                                            <FeatherIcon icon={'star'} />
-                                        </li>
-                                        <li>
-                                            <FeatherIcon icon={'star'} />
-                                        </li>
-                                    </ul>
-                                    <span>(4.0)</span>
-                                </div>
-                                <h6 className="unit">250 ml</h6>
-                                <h5 className="price"><span className="theme-color">DNT{product.promoprice}</span> <del>DNT{product.price}</del>
+                            
+                                <h5 className="unit">{product.QtePerUnit} par unité</h5>
+                                <h5 className="price"><span className="theme-color">{product.promoprice} TND</span> <del>{product.price} TND</del>
                                 </h5>
                                 <div className="add-to-cart-box bg-white">
                                     <button className="btn btn-add-cart addcart-button" onClick={() => dispatch(addToCart({
